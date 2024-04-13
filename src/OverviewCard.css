@@ -1,0 +1,11 @@
+.gewinn {
+    color: green;
+    font-size: 4em !important;
+    font-weight: bold;
+    text-align: right;
+}
+
+.name {
+    font-size: 1em;
+    font-weight: bold;
+}
