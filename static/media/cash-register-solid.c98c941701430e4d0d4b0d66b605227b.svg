@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <rect
+     style="fill:#ffdd55"
+     id="rect3"
+     width="401.38098"
+     height="56.013195"
+     x="52.354042"
+     y="406.16602" />
+  <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+  <rect
+     style="fill:#00ff00"
+     id="rect1"
+     width="78.531059"
+     height="81.627266"
+     x="83.316109"
+     y="195.3425" />
+  <rect
+     style="fill:#000080"
+     id="rect1-0"
+     width="78.531059"
+     height="81.627266"
+     x="165.35403"
+     y="196.50357" />
+  <rect
+     style="fill:#d45500"
+     id="rect1-05"
+     width="78.531059"
+     height="81.627266"
+     x="262.2045"
+     y="198.21495" />
+  <rect
+     style="fill:#ffaaaa"
+     id="rect1-8"
+     width="78.531059"
+     height="81.627266"
+     x="362.60474"
+     y="198.37053" />
+  <rect
+     style="fill:#ff00ff"
+     id="rect1-5"
+     width="78.531059"
+     height="81.627266"
+     x="312.37878"
+     y="277.83508" />
+  <rect
+     style="fill:#ffdd55"
+     id="rect1-6"
+     width="78.531059"
+     height="81.627266"
+     x="222.33589"
+     y="283.62231"
+ />
+  <rect
+     style="fill:#ff0000"
+     id="rect1-2"
+     width="78.531059"
+     height="81.627266"
+     x="125.03188"
+     y="280.06653" />
+  <rect
+     style="fill:#aa0000"
+     id="rect2"
+     width="212.51237"
+     height="67.272125"
+     x="66.709183"
+     y="30.39912" />
+  <path
+     d="M64 0C46.3 0 32 14.3 32 32V96c0 17.7 14.3 32 32 32h80v32H87c-31.6 0-58.5 23.1-63.3 54.4L1.1 364.1C.4 368.8 0 373.6 0 378.4V448c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V378.4c0-4.8-.4-9.6-1.1-14.4L488.2 214.4C483.5 183.1 456.6 160 425 160H208V128h80c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H64zM96 48H256c8.8 0 16 7.2 16 16s-7.2 16-16 16H96c-8.8 0-16-7.2-16-16s7.2-16 16-16zM64 432c0-8.8 7.2-16 16-16H432c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16zm48-168a24 24 0 1 1 0-48 24 24 0 1 1 0 48zm120-24a24 24 0 1 1 -48 0 24 24 0 1 1 48 0zM160 344a24 24 0 1 1 0-48 24 24 0 1 1 0 48zM328 240a24 24 0 1 1 -48 0 24 24 0 1 1 48 0zM256 344a24 24 0 1 1 0-48 24 24 0 1 1 0 48zM424 240a24 24 0 1 1 -48 0 24 24 0 1 1 48 0zM352 344a24 24 0 1 1 0-48 24 24 0 1 1 0 48z"
+     id="path1"
+     style="fill:#0000ff" />
+  <text
+     style="font-size:34.0759px;font-family:Snow;-inkscape-font-specification:Snow;fill:#aa0000;stroke-width:0.354957"
+     x="149.21461"
+     y="77.405167"
+     id="text2"><tspan
+       id="tspan2"
+       x="149.21461"
+       y="77.405167"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:LCD;-inkscape-font-specification:'LCD Bold';fill:#000000;stroke-width:0.354957">2,00</tspan></text>
+</svg>
