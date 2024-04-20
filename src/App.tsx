@@ -1,7 +1,7 @@
 /* App.jsx */
-import React, { Ref, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRef } from 'react';
-import { Block, Button, App, Page, Navbar, Link, Icon, BlockTitle, Actions, ActionsButton, ActionsGroup, ActionsLabel, Popover, Popup } from 'konsta/react';
+import { Block, Button, App, Page, Navbar, Link, Icon, BlockTitle, Actions, ActionsButton, ActionsGroup, ActionsLabel } from 'konsta/react';
 import { GewinnTyp, OverviewCard, OverviewCardRef } from './OverviewCard';
 import { Keypad, KeypadRef } from './Keypad';
 import { initDB, useIndexedDB } from 'react-indexed-db-hook';
@@ -9,11 +9,9 @@ import { DBConfig } from './DBConfig';
 import { BsCashCoin } from "react-icons/bs";
 import { SlPaypal } from "react-icons/sl";
 import { FaChild } from "react-icons/fa";
-import { IoIosMan } from "react-icons/io";
 import { FaCashRegister } from "react-icons/fa6";
 import { ReactComponent as Logo} from './cash-register-solid.svg';
 import { TiThMenu } from "react-icons/ti";
-import QRCode from 'react-qr-code';
 import { PaypalPopup } from './PaypalPopup';
 
 
