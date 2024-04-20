@@ -11,8 +11,12 @@
     "@types/react": "^18.2.73",
     "@types/react-dom": "^18.2.23",
     "konsta": "^3.1.3",
+    "mui-numpad": "^0.1.4-alpha",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.1.0",
+    "react-indexed-db-hook": "^1.0.14",
+    "react-qr-code": "^2.0.12",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"

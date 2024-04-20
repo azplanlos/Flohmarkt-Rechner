@@ -6,6 +6,21 @@
 }
 
 .name {
-    font-size: 1em;
+    font-size: 2em;
     font-weight: bold;
+}
+
+.detail {
+    text-align: right;
+    font-weight: bold;
+    padding-top: 1em;
+    font-size: 1.5em;
+    vertical-align: middle;
+}
+
+.detailIcon {
+    margin-left: 1%;
+    margin-right: 1%;
+    position: relative;
+    top: 0.2em;
 }
