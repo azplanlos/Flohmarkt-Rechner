@@ -15,6 +15,7 @@ module.exports = konstaConfig({
   content: [
     './src/*.{ts,tsx}'
   ],
+  darkMode: 'selector', // or 'class'
   theme: {
     extend: {},
   },

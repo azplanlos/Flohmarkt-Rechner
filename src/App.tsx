@@ -1,10 +1,10 @@
 /* App.jsx */
-import React, { useState } from 'react';
+import React, { MutableRefObject, useState } from 'react';
 import { useRef } from 'react';
-import { Block, Button, App, Page, Navbar, Link, Icon, BlockTitle, Actions, ActionsButton, ActionsGroup, ActionsLabel } from 'konsta/react';
+import { Block, Button, App, Page, Navbar, Link, Icon, BlockTitle } from 'konsta/react';
 import { GewinnTyp, OverviewCard, OverviewCardRef } from './OverviewCard';
 import { Keypad, KeypadRef } from './Keypad';
-import { initDB, useIndexedDB } from 'react-indexed-db-hook';
+import { initDB } from 'react-indexed-db-hook';
 import { DBConfig } from './DBConfig';
 import { BsCashCoin } from "react-icons/bs";
 import { SlPaypal } from "react-icons/sl";
@@ -13,25 +13,34 @@ import { FaCashRegister } from "react-icons/fa6";
 import { ReactComponent as Logo} from './cash-register-solid.svg';
 import { TiThMenu } from "react-icons/ti";
 import { PaypalPopup } from './PaypalPopup';
+import { ActionMenu } from './ActionMenu';
 
 
 
 initDB(DBConfig);
 
+let refs: MutableRefObject<OverviewCardRef[]>;
+let keypadRef: MutableRefObject<KeypadRef>;
+
+function resetApp() {
+  refs.current.forEach(ref => ref.reset());
+  keypadRef.current.reset();
+}
+
 export default function MyApp() { 
 
     let names = ["Lukas", "Andi"];
 
-    const refs = useRef<OverviewCardRef[]>([]);
+    refs = useRef<OverviewCardRef[]>([]);
     const [actionOpen, setActionOpen] = useState(false);
     const [qrPopup, setQrPopup] = useState(false);
-    const keypadRef = useRef<KeypadRef>(null);
+    const [dark, setDark] = useState(window.matchMedia('(prefers-color-scheme: dark)').matches);
+    keypadRef = useRef<KeypadRef>(null);
     const [zahlungStatePayPal, setPaypal] = useState(false);
     const keypadValue = useRef(0);
-    const { clear } = useIndexedDB("buchungen");
 
     return ( 
-        <App theme="ios" dark safeAreas>
+        <App theme="ios" dark safeAreas className={dark ? 'dark' : ''}>
           <Page>
             <Navbar title="Kasse" left={
             <Link navbar iconOnly>
@@ -62,24 +71,7 @@ export default function MyApp() {
               }} large><Icon className='detailIcon' style={{position: "relative", top: "-0.07em"}}><FaChild /></Icon>{name}</Button>})}
             </div>
           </Block>
-          <Actions opened={actionOpen} onBackdropClick={() => setActionOpen(false)}>
-            <ActionsGroup>
-              <ActionsLabel>Aktionen</ActionsLabel>
-              <ActionsButton onClick={() => {
-                  setActionOpen(false);
-                  clear().then(() => {
-                    console.log("All Clear!");
-                    refs.current.forEach(ref => ref.reset());
-                    keypadRef.current.reset();
-                  });
-                }} bold>
-                Daten löschen
-              </ActionsButton>
-              <ActionsButton onClick={() => setActionOpen(false)}>
-                Abbrechen
-              </ActionsButton>
-            </ActionsGroup>
-          </Actions>
+          <ActionMenu opened={actionOpen} close={() => setActionOpen(false)} resetApp={resetApp} dark={dark} setDark={setDark} />
           <PaypalPopup opened={qrPopup} close={() => setQrPopup(false)} amount={keypadValue.current} />
         </Page>
       </App>

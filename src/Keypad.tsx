@@ -3,7 +3,7 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 import './Keypad.css';
 
 function screen(value: string) {
-    return <div className="display">{value}</div>
+    return <div className="display dark:text-white">{value}</div>
 }
 
 function calc(val: number, comma: boolean, current: number): number {

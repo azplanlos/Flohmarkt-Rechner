@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .gewinn {
     color: green;
     font-size: 4em !important;
@@ -8,6 +12,12 @@
 .name {
     font-size: 2em;
     font-weight: bold;
+}
+
+@layer utilities {
+    .text-white {
+        color: white;
+    }
 }
 
 .detail {

@@ -89,14 +89,14 @@ export const OverviewCard = forwardRef<OverviewCardRef, OverviewCardProps>((prop
       }
     } as OverviewCardRef;
   }, [update, props.name]);
-    return idRef && <Card header={<h2 className="name">{props.name}</h2>}>
+    return idRef && <Card header={<h2 className="name dark:text-white">{props.name}</h2>}>
         <div className='grid grid-cols-3'>
           <div style={{width: "10%"}}>
             <Logo width={"100%"} />
           </div>
           <div style={{width: "100%"}} className='col-span-2'>
         <div className="gewinn" style={{width: "100%"}}>{gw.toLocaleString('de-de', {minimumFractionDigits: 2})} €</div>
-        <div className="detail" style={{width: "100%"}}><Icon className='detailIcon'><BsCashCoin /></Icon>{gwBar.toLocaleString('de-de', {minimumFractionDigits: 2})} €<Icon className='detailIcon'><SlPaypal /></Icon>{gwPayPal.toLocaleString('de-de', {minimumFractionDigits: 2})} €</div>
+        <div className="detail dark:text-white" style={{width: "100%"}}><Icon className='detailIcon'><BsCashCoin /></Icon>{gwBar.toLocaleString('de-de', {minimumFractionDigits: 2})} €<Icon className='detailIcon'><SlPaypal /></Icon>{gwPayPal.toLocaleString('de-de', {minimumFractionDigits: 2})} €</div>
         </div>
         </div>
         </Card>
