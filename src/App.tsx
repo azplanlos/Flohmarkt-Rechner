@@ -1,8 +1,8 @@
 /* App.jsx */
-import React, { MutableRefObject, useState } from 'react';
+import React, { MutableRefObject, useEffect, useState } from 'react';
 import { useRef } from 'react';
 import { Button, App, Page, Navbar, Link, Icon, Tabbar, TabbarLink } from 'konsta/react';
-import { OverviewCardRef } from './OverviewCard';
+import { GewinnTyp, OverviewCard, OverviewCardRef } from './OverviewCard';
 import { KeypadRef } from './Keypad';
 import { initDB } from 'react-indexed-db-hook';
 import { DBConfig } from './DBConfig';
@@ -21,10 +21,15 @@ initDB(DBConfig);
 
 let refs: MutableRefObject<OverviewCardRef[]>;
 let keypadRef: MutableRefObject<KeypadRef>;
+let names = ["Lukas", "Andi"];
 
 function resetApp() {
   refs.current.forEach(ref => ref.reset());
-  keypadRef.current.reset();
+  if (keypadRef !== null && keypadRef.current !== null) keypadRef.current.reset();
+}
+
+function decrease(name: string, betrag: number, typ: GewinnTyp) {
+    refs.current[names.indexOf(name)].increase(-(betrag), typ);
 }
 
 export default function MyApp() { 
@@ -68,8 +73,11 @@ export default function MyApp() {
               }
             />
           </Tabbar>
-          { activeTab === 'übersicht' && <Gewinn keypadRef={keypadRef} refs={refs} />}
-          { activeTab === 'buchungen' && <Buchungen />}
+          {names.map((name: string, index: number) => {return <OverviewCard name={name} gewinn={0} ref={el => refs.current[index] = el} key={name} />})}
+          { activeTab === 'übersicht' && <Gewinn keypadRef={keypadRef} refs={refs} names={names}/>}
+          { activeTab === 'buchungen' && <Buchungen decrease={(name, betrag, typ) => {
+              decrease(name, betrag, typ)
+          }} />}
           <ActionMenu opened={actionOpen} close={() => setActionOpen(false)} resetApp={resetApp} dark={dark} setDark={setDark} />
         </Page>
       </App>

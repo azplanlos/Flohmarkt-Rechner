@@ -82,7 +82,7 @@ export const OverviewCard = forwardRef<OverviewCardRef, OverviewCardProps>((prop
           const pp = typ === GewinnTyp.PAYPAL ? val : statePayPalRef.current;
           update({name: props.name, gewinnBar: bar, gewinnPayPal: pp, id: idRef.current});
         }, () => GewinnTyp.BAR ? stateBarRef.current : statePayPalRef.current);
-        addBuchung({name: props.name, gewinnTyp: typ, gewinn: gewinn, zeit: Date.now()});
+        if (gewinn > 0 ) addBuchung({name: props.name, gewinnTyp: typ, gewinn: gewinn, zeit: Date.now()});
       },
       reset: () => {
         sgw(0);
