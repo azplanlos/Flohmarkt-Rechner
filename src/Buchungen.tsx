@@ -59,11 +59,11 @@ export function Buchungen(props: BuchungenProps) {
             </TableHead>
             <TableBody>
               {buchungen.filter(buchung => buchung.zeit.toLocaleDateString() === date).map(buchung => {
-                  return <TableRow key={"buchung-" + buchung.id}>
-                      <TableCell>{buchung.zeit.toLocaleDateString()} {buchung.zeit.toLocaleTimeString()}</TableCell>
-                      <TableCell>{buchung.name}</TableCell>
-                      <TableCell><Icon>{buchung.typ === GewinnTyp.PAYPAL ? <SlPaypal /> : <BsCashCoin />}</Icon></TableCell>
-                      <TableCell className="text-right">{buchung.betrag.toLocaleString('de-de', {maximumFractionDigits: 2, minimumFractionDigits: 2})} €</TableCell>
+                  return <TableRow key={"buchung-" + buchung.id} className="dark:text-white">
+                      <TableCell className="dark:text-white">{buchung.zeit.toLocaleDateString()} {buchung.zeit.toLocaleTimeString()}</TableCell>
+                      <TableCell className="dark:text-white">{buchung.name}</TableCell>
+                      <TableCell className="dark:text-white"><Icon>{buchung.typ === GewinnTyp.PAYPAL ? <SlPaypal /> : <BsCashCoin />}</Icon></TableCell>
+                      <TableCell className="text-right dark:text-white">{buchung.betrag.toLocaleString('de-de', {maximumFractionDigits: 2, minimumFractionDigits: 2})} €</TableCell>
                       <TableCell className="grid grid-cols-2 gap-x-4 items-center"><Button outline small onClick={() => undo(buchung, deleteRecord, buchungen, setBuchungen, props.decrease)}><Icon><IoTrashOutline /></Icon></Button><Button outline small><Icon>{buchung.typ === GewinnTyp.BAR ? <SlPaypal /> : <BsCashCoin />}</Icon></Button></TableCell>
                   </TableRow>;
               })
