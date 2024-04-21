@@ -10,26 +10,23 @@ type ActionMenuProps = {
 }
 
 export function ActionMenu(props: ActionMenuProps) {
-    const { clear } = useIndexedDB("buchungen");
+    const { clear } = useIndexedDB("gewinn");
+    const clearBuchungen = useIndexedDB("buchungen").clear;
 
     return <Actions opened={props.opened} onBackdropClick={() => props.close()}>
     <ActionsGroup>
-        <ActionsLabel>Buchungen</ActionsLabel>
-        <ActionsButton>Verlauf</ActionsButton>
-    </ActionsGroup>
-    <ActionsGroup>
       <ActionsLabel>Einstellungen</ActionsLabel>
-      <ActionsButton>Benutzer</ActionsButton>
+      <ActionsButton bold>Benutzer</ActionsButton>
       <ActionsButton onClick={() => {
           props.close();
           clear().then(() => {
             console.log("All Clear!");
-            props.resetApp();
+            clearBuchungen().then(() => props.resetApp());
           });
         }} bold>
         Daten löschen
       </ActionsButton>
-      <ActionsButton>
+      <ActionsButton bold>
         <List>
             <ListItem
             label

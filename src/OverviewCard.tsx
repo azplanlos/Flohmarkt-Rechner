@@ -29,7 +29,8 @@ function erhoeheGewinn(gewinn: number, setFunction: (value: number) => void, get
 
 export const OverviewCard = forwardRef<OverviewCardRef, OverviewCardProps>((props: OverviewCardProps, ref: Ref<OverviewCardRef>) => {
 
-  const { getAll, update, add } = useIndexedDB("buchungen");
+  const { getAll, update, add } = useIndexedDB("gewinn");
+  const addBuchung = useIndexedDB("buchungen").add;
 
   const [gw, sgw] = useState(props.gewinn);
   const [gwBar, setGwBar] = useState(0);
@@ -81,6 +82,7 @@ export const OverviewCard = forwardRef<OverviewCardRef, OverviewCardProps>((prop
           const pp = typ === GewinnTyp.PAYPAL ? val : statePayPalRef.current;
           update({name: props.name, gewinnBar: bar, gewinnPayPal: pp, id: idRef.current});
         }, () => GewinnTyp.BAR ? stateBarRef.current : statePayPalRef.current);
+        addBuchung({name: props.name, gewinnTyp: typ, gewinn: gewinn, zeit: Date.now()});
       },
       reset: () => {
         sgw(0);
@@ -88,7 +90,7 @@ export const OverviewCard = forwardRef<OverviewCardRef, OverviewCardProps>((prop
         setGwPayPal(0);
       }
     } as OverviewCardRef;
-  }, [update, props.name]);
+  }, [update, addBuchung, props.name]);
     return idRef && <Card header={<h2 className="name dark:text-white">{props.name}</h2>}>
         <div className='grid grid-cols-3'>
           <div style={{width: "10%"}}>
