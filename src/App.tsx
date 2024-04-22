@@ -79,7 +79,7 @@ export default function MyApp() {
           </Tabbar>
           {names.map((name: string, index: number) => {return <OverviewCard name={name} gewinn={0} ref={el => refs.current[index] = el} key={name} />})}
           { activeTab === 'übersicht' && <Gewinn keypadRef={keypadRef} refs={refs} names={names}/>}
-          { activeTab === 'buchungen' && <Buchungen decrease={(name, betrag, typ) => {
+          { activeTab === 'buchungen' && <Buchungen key="buchungen" decrease={(name, betrag, typ) => {
               decrease(name, betrag, typ)
           }} convert={convert}/>}
           <ActionMenu opened={actionOpen} close={() => setActionOpen(false)} resetApp={resetApp} dark={dark} setDark={setDark} />
