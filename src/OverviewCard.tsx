@@ -21,10 +21,25 @@ export enum GewinnTyp {
 export type OverviewCardRef = {
     increase: (gewinn: number, typ: GewinnTyp) => void;
     reset: () => void;
+    convert: (betrag: number, neuerTyp: GewinnTyp) => void;
 }
 
 function erhoeheGewinn(gewinn: number, setFunction: (value: number) => void, getFunction: () => number) {
     setFunction(gewinn + getFunction());
+}
+
+export type DbGewinn = {
+  name: string;
+  gewinnBar: number;
+  gewinnPayPal: number;
+  id?: number
+}
+
+export type DbBuchung = {
+  name: string;
+  gewinnTyp: GewinnTyp;
+  gewinn: number;
+  zeit: number;
 }
 
 export const OverviewCard = forwardRef<OverviewCardRef, OverviewCardProps>((props: OverviewCardProps, ref: Ref<OverviewCardRef>) => {
@@ -80,14 +95,28 @@ export const OverviewCard = forwardRef<OverviewCardRef, OverviewCardProps>((prop
           console.log(idRef.current);
           const bar = typ === GewinnTyp.BAR ? val : stateBarRef.current;
           const pp = typ === GewinnTyp.PAYPAL ? val : statePayPalRef.current;
-          update({name: props.name, gewinnBar: bar, gewinnPayPal: pp, id: idRef.current});
+          update({name: props.name, gewinnBar: bar, gewinnPayPal: pp, id: idRef.current} as DbGewinn);
         }, () => GewinnTyp.BAR ? stateBarRef.current : statePayPalRef.current);
-        if (gewinn > 0 ) addBuchung({name: props.name, gewinnTyp: typ, gewinn: gewinn, zeit: Date.now()});
+        if (gewinn > 0 ) addBuchung({name: props.name, gewinnTyp: typ, gewinn: gewinn, zeit: Date.now()} as DbBuchung);
       },
       reset: () => {
         sgw(0);
         setGwBar(0);
         setGwPayPal(0);
+      },
+      convert: (betrag: number, neuerTyp: GewinnTyp) => {
+        if (neuerTyp === GewinnTyp.BAR) {
+          erhoeheGewinn(betrag, setGwBar, () => stateBarRef.current);
+          erhoeheGewinn(-betrag, setGwPayPal, () => statePayPalRef.current);
+        } else {
+          erhoeheGewinn(betrag, setGwPayPal, () => statePayPalRef.current);
+          erhoeheGewinn(-betrag, setGwBar, () => stateBarRef.current);
+        }
+        const bar = neuerTyp === GewinnTyp.BAR ? stateBarRef.current + betrag : stateBarRef.current - betrag;
+        const pp = neuerTyp === GewinnTyp.PAYPAL ? statePayPalRef.current + betrag : statePayPalRef.current - betrag;
+        update({name: props.name, gewinnBar: bar, gewinnPayPal: pp, id: idRef.current} as DbGewinn);
+        setGwBar(bar);
+        setGwPayPal(pp);
       }
     } as OverviewCardRef;
   }, [update, addBuchung, props.name]);

@@ -32,6 +32,10 @@ function decrease(name: string, betrag: number, typ: GewinnTyp) {
     refs.current[names.indexOf(name)].increase(-(betrag), typ);
 }
 
+function convert(name: string, betrag: number, neuerTyp: GewinnTyp) {
+    refs.current[names.indexOf(name)].convert(betrag, neuerTyp);
+}
+
 export default function MyApp() { 
 
     refs = useRef<OverviewCardRef[]>([]);
@@ -77,7 +81,7 @@ export default function MyApp() {
           { activeTab === 'übersicht' && <Gewinn keypadRef={keypadRef} refs={refs} names={names}/>}
           { activeTab === 'buchungen' && <Buchungen decrease={(name, betrag, typ) => {
               decrease(name, betrag, typ)
-          }} />}
+          }} convert={convert}/>}
           <ActionMenu opened={actionOpen} close={() => setActionOpen(false)} resetApp={resetApp} dark={dark} setDark={setDark} />
         </Page>
       </App>

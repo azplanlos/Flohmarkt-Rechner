@@ -1,7 +1,7 @@
 import { BlockTitle, Card, Table, TableHead, TableRow, TableCell, TableBody, Icon, Button, Block } from "konsta/react";
 import { useEffect, useState } from "react";
 import { useIndexedDB } from "react-indexed-db-hook";
-import { GewinnTyp } from "./OverviewCard";
+import { DbBuchung, GewinnTyp } from "./OverviewCard";
 import { SlPaypal } from "react-icons/sl";
 import { BsCashCoin } from "react-icons/bs";
 import { IoTrashOutline } from "react-icons/io5";
@@ -22,13 +22,21 @@ function undo(buchung: Buchung, deleteRecord: (key: any) => Promise<any>, buchun
     decreaseFunction(buchung.name, buchung.betrag, buchung.typ);
 }
 
+function convert(buchung: Buchung, update: (value: DbBuchung) => Promise<any>, buchungen: Buchung[], setBuchungen: (buchungen: Buchung[]) => void, convertFunction: (name:string, amount: number, typ: GewinnTyp) => void) {
+  update({id: buchung.id, gewinn: buchung.betrag, name: buchung.name, gewinnTyp: buchung.typ === GewinnTyp.BAR ? GewinnTyp.PAYPAL : GewinnTyp.BAR, zeit: buchung.zeit.getTime()} as DbBuchung);
+  buchung.typ = buchung.typ === GewinnTyp.BAR ? GewinnTyp.PAYPAL : GewinnTyp.BAR;
+  setBuchungen(buchungen.map(bk => bk.id === buchung.id ? buchung : bk));
+  convertFunction(buchung.name, buchung.betrag, buchung.typ);
+}
+
 type BuchungenProps = {
-    decrease: (name:string, amount: number, typ: GewinnTyp) => void;
+    decrease: (name: string, amount: number, typ: GewinnTyp) => void;
+    convert: (name: string, amount: number, alterTyp: GewinnTyp) => void;
 }
 
 export function Buchungen(props: BuchungenProps) {
 
-    const { getAll, deleteRecord } = useIndexedDB("buchungen");
+    const { getAll, deleteRecord, update } = useIndexedDB("buchungen");
     const [buchungen, setBuchungen] = useState<Buchung[]>([]);
 
     useEffect(() => {
@@ -64,7 +72,14 @@ export function Buchungen(props: BuchungenProps) {
                       <TableCell className="dark:text-white">{buchung.name}</TableCell>
                       <TableCell className="dark:text-white"><Icon>{buchung.typ === GewinnTyp.PAYPAL ? <SlPaypal /> : <BsCashCoin />}</Icon></TableCell>
                       <TableCell className="text-right dark:text-white">{buchung.betrag.toLocaleString('de-de', {maximumFractionDigits: 2, minimumFractionDigits: 2})} €</TableCell>
-                      <TableCell className="grid grid-cols-2 gap-x-4 items-center"><Button outline small onClick={() => undo(buchung, deleteRecord, buchungen, setBuchungen, props.decrease)}><Icon><IoTrashOutline /></Icon></Button><Button outline small><Icon>{buchung.typ === GewinnTyp.BAR ? <SlPaypal /> : <BsCashCoin />}</Icon></Button></TableCell>
+                      <TableCell className="grid grid-cols-2 gap-x-4 items-center">
+                        <Button outline small onClick={() => undo(buchung, deleteRecord, buchungen, setBuchungen, props.decrease)}>
+                          <Icon><IoTrashOutline /></Icon>
+                        </Button>
+                        <Button outline small onClick={() => convert(buchung, update, buchungen, setBuchungen, props.convert)}>
+                          <Icon>{buchung.typ === GewinnTyp.BAR ? <SlPaypal /> : <BsCashCoin />}</Icon>
+                        </Button>
+                      </TableCell>
                   </TableRow>;
               })
           }
