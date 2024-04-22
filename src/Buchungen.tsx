@@ -1,7 +1,7 @@
 import { BlockTitle, Card, Table, TableHead, TableRow, TableCell, TableBody, Icon, Button, Block } from "konsta/react";
-import { MutableRefObject, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useIndexedDB } from "react-indexed-db-hook";
-import { GewinnTyp, OverviewCardRef } from "./OverviewCard";
+import { GewinnTyp } from "./OverviewCard";
 import { SlPaypal } from "react-icons/sl";
 import { BsCashCoin } from "react-icons/bs";
 import { IoTrashOutline } from "react-icons/io5";

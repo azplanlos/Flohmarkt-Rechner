@@ -3,7 +3,7 @@ import { BsCashCoin } from "react-icons/bs";
 import { FaChild } from "react-icons/fa";
 import { SlPaypal } from "react-icons/sl";
 import { Keypad, KeypadRef } from "./Keypad";
-import { OverviewCard, GewinnTyp, OverviewCardRef } from "./OverviewCard";
+import { GewinnTyp, OverviewCardRef } from "./OverviewCard";
 import { PaypalPopup } from "./PaypalPopup";
 import { useState, useRef, MutableRefObject } from "react";
 

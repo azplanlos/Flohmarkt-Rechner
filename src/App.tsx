@@ -1,5 +1,5 @@
 /* App.jsx */
-import React, { MutableRefObject, useEffect, useState } from 'react';
+import React, { MutableRefObject, useState } from 'react';
 import { useRef } from 'react';
 import { Button, App, Page, Navbar, Link, Icon, Tabbar, TabbarLink } from 'konsta/react';
 import { GewinnTyp, OverviewCard, OverviewCardRef } from './OverviewCard';
