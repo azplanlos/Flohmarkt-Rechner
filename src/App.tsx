@@ -1,5 +1,5 @@
 /* App.jsx */
-import React, { MutableRefObject, useEffect, useState } from 'react';
+import React, { MutableRefObject, useState } from 'react';
 import { useRef } from 'react';
 import { Button, App, Page, Navbar, Link, Icon, Tabbar, TabbarLink } from 'konsta/react';
 import { GewinnTyp, OverviewCard, OverviewCardRef } from './OverviewCard';
@@ -14,7 +14,7 @@ import { BsReverseListColumnsReverse } from "react-icons/bs";
 import { Gewinn } from './Gewinn';
 import { Buchungen } from './Buchungen';
 import { RiHome2Fill } from "react-icons/ri";
-import { BenutzerPanel } from './Benutzer';
+import { BenutzerPanel, BenutzerPanelRef } from './Benutzer';
 
 
 
@@ -44,6 +44,7 @@ export type DbUser = {
 export default function MyApp() { 
 
     refs = useRef<OverviewCardRef[]>([]);
+    const benutzerRef = useRef<BenutzerPanelRef>(null);
     const [actionOpen, setActionOpen] = useState(false);
     const [dark, setDark] = useState(window.matchMedia('(prefers-color-scheme: dark)').matches);
     keypadRef = useRef<KeypadRef>(null);
@@ -52,15 +53,27 @@ export default function MyApp() {
     const [names, setNames] = useState(["Lukas", "Andi"]);
     const { getAll, clear, add } = useIndexedDB("benutzer");
 
-    useEffect(() => {
+    function useOnceCall(cb: () => void, condition = true) {
+      const isCalledRef = React.useRef(false);
+    
+      React.useEffect(() => {
+        if (condition && !isCalledRef.current) {
+          isCalledRef.current = true;
+          cb();
+        }
+      }, [cb, condition]);
+    }
+
+    useOnceCall(() => {
       getAll().then((benutzer: DbUser[]) => {
         if (benutzer.length > 0) {
           setNames(benutzer.map((dbUser: DbUser) => dbUser.name));
+          benutzerRef.current.setUser(benutzer.map((dbUser: DbUser) => dbUser.name));
         } else {
           names.forEach(name => add({name: name}).then(() => console.log("added user " + name), error => console.log("user exists")));
         }
       })
-    })
+    });
 
     return ( 
         <App theme="ios" dark safeAreas className={dark ? 'dark' : ''}>
@@ -100,12 +113,14 @@ export default function MyApp() {
           { activeTab === 'buchungen' && <Buchungen key="buchungen" decrease={(name, betrag, typ) => {
               decrease(name, betrag, typ, names)
           }} convert={(name, betrag, typ) => convert(name, betrag, typ, names)}/>}
-          <BenutzerPanel onUserChange={(names) => {
-            resetApp();
-            clear().then(() => names.forEach(name => add({name: name})));
-            setNames(names);
-            setActiveTab('übersicht');
-          }} opened={benutzerPanel} close={() => setBenutzerPanel(false)} benutzer={names} />
+          <BenutzerPanel onUserChange={(newNames) => {
+            clear().then(async () => await newNames.forEach(async name => {
+              await add({name: name});
+              setNames([...newNames]);
+              setActiveTab('übersicht');
+              resetApp();
+            }));
+          }} opened={benutzerPanel} close={() => setBenutzerPanel(false)} benutzer={names} ref={benutzerRef} />
           <ActionMenu opened={actionOpen} close={() => setActionOpen(false)} resetApp={resetApp} dark={dark} setDark={setDark} openBenutzerPanel={() => setBenutzerPanel(true)} />
         </Page>
       </App>

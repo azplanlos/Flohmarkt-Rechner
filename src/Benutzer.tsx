@@ -1,5 +1,5 @@
 import { Popup, Page, Navbar, Link, Block, List, ListInput, Dialog, DialogButton, Button } from "konsta/react";
-import { FormEvent, useState } from "react";
+import { FormEvent, Ref, forwardRef, useImperativeHandle, useState } from "react";
 import { FaChild } from "react-icons/fa6";
 import { useIndexedDB } from "react-indexed-db-hook";
 
@@ -10,13 +10,23 @@ export type BenutzerPanelProps = {
     benutzer: string[];
 }
 
-export function BenutzerPanel(props: BenutzerPanelProps) {
+export type BenutzerPanelRef = {
+    setUser: (userlist: string[]) => void;
+}
+
+export const BenutzerPanel = forwardRef<BenutzerPanelRef, BenutzerPanelProps>((props: BenutzerPanelProps, ref: Ref<BenutzerPanelRef>) => {
     console.log(props.benutzer);
     const [names, setNames] = useState([...props.benutzer]);
     const [confirmOpened, setConfirmOpened] = useState(false);
 
     const { clear } = useIndexedDB("gewinn");
     const clearBuchungen = useIndexedDB("buchungen").clear;
+
+    useImperativeHandle<BenutzerPanelRef, BenutzerPanelRef>(ref, () => {
+        return {
+            setUser: (userList: string[]) => setNames(userList)
+        } as BenutzerPanelRef
+    });
 
     return <><Popup opened={props.opened} onBackdropClick={() => {
         props.close();
@@ -49,12 +59,12 @@ export function BenutzerPanel(props: BenutzerPanelProps) {
             media={<FaChild />}
             defaultValue={name}
             onChange={(newValue: FormEvent<HTMLInputElement>) => {
-                const newNames = [...names];
-                newNames[index] = newValue.currentTarget.value;
-                setNames(newNames);
+                names[index] = newValue.currentTarget.value;
+                setNames(names);
             }}
             clearButton
             onClear={() => setNames([...names.filter((n, i) => i !== index)])}
+            key={name}
             />)}
         </List>
         <Button small onClick={() => setNames([...names, ""])}>+</Button>
@@ -87,4 +97,4 @@ export function BenutzerPanel(props: BenutzerPanelProps) {
       />
     </Page>
   </Popup></>
-}
+});
