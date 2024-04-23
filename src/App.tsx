@@ -14,6 +14,7 @@ import { BsReverseListColumnsReverse } from "react-icons/bs";
 import { Gewinn } from './Gewinn';
 import { Buchungen } from './Buchungen';
 import { RiHome2Fill } from "react-icons/ri";
+import { BenutzerPanel } from './Benutzer';
 
 
 
@@ -21,18 +22,17 @@ initDB(DBConfig);
 
 let refs: MutableRefObject<OverviewCardRef[]>;
 let keypadRef: MutableRefObject<KeypadRef>;
-let names = ["Lukas", "Andi"];
 
 function resetApp() {
-  refs.current.forEach(ref => ref.reset());
+  refs.current.forEach(ref => {if (ref !== undefined && ref !== null) ref.reset();});
   if (keypadRef !== null && keypadRef.current !== null) keypadRef.current.reset();
 }
 
-function decrease(name: string, betrag: number, typ: GewinnTyp) {
+function decrease(name: string, betrag: number, typ: GewinnTyp, names: string[]) {
     refs.current[names.indexOf(name)].increase(-(betrag), typ);
 }
 
-function convert(name: string, betrag: number, neuerTyp: GewinnTyp) {
+function convert(name: string, betrag: number, neuerTyp: GewinnTyp, names: string[]) {
     refs.current[names.indexOf(name)].convert(betrag, neuerTyp);
 }
 
@@ -43,6 +43,8 @@ export default function MyApp() {
     const [dark, setDark] = useState(window.matchMedia('(prefers-color-scheme: dark)').matches);
     keypadRef = useRef<KeypadRef>(null);
     const [activeTab, setActiveTab] = useState('übersicht');
+    const [benutzerPanel, setBenutzerPanel] = useState(false);
+    const [names, setNames] = useState(["Lukas", "Andi"]);
 
     return ( 
         <App theme="ios" dark safeAreas className={dark ? 'dark' : ''}>
@@ -80,9 +82,14 @@ export default function MyApp() {
           {names.map((name: string, index: number) => {return <OverviewCard name={name} gewinn={0} ref={el => refs.current[index] = el} key={name} />})}
           { activeTab === 'übersicht' && <Gewinn keypadRef={keypadRef} refs={refs} names={names}/>}
           { activeTab === 'buchungen' && <Buchungen key="buchungen" decrease={(name, betrag, typ) => {
-              decrease(name, betrag, typ)
-          }} convert={convert}/>}
-          <ActionMenu opened={actionOpen} close={() => setActionOpen(false)} resetApp={resetApp} dark={dark} setDark={setDark} />
+              decrease(name, betrag, typ, names)
+          }} convert={(name, betrag, typ) => convert(name, betrag, typ, names)}/>}
+          <BenutzerPanel onUserChange={(names) => {
+            resetApp();
+            setNames(names);
+            setActiveTab('übersicht');
+          }} opened={benutzerPanel} close={() => setBenutzerPanel(false)} benutzer={names} />
+          <ActionMenu opened={actionOpen} close={() => setActionOpen(false)} resetApp={resetApp} dark={dark} setDark={setDark} openBenutzerPanel={() => setBenutzerPanel(true)} />
         </Page>
       </App>
     );

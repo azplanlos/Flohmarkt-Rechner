@@ -1,4 +1,4 @@
-import React, { Ref, useEffect, useImperativeHandle, useRef } from 'react';
+import React, { MutableRefObject, Ref, useEffect, useImperativeHandle, useRef } from 'react';
 import { useState, forwardRef } from 'react';
 import { Card, Icon } from 'konsta/react';
 import './OverviewCard.css'
@@ -6,7 +6,6 @@ import { useIndexedDB } from 'react-indexed-db-hook';
 import { BsCashCoin } from "react-icons/bs";
 import { SlPaypal } from "react-icons/sl";
 import { ReactComponent as Logo} from './cash-register-solid.svg';
-
 
 type OverviewCardProps = {
     name: string;
@@ -42,6 +41,33 @@ export type DbBuchung = {
   zeit: number;
 }
 
+function getUserData(getAll: () => Promise<DbGewinn[]>,
+  add: (value: DbGewinn, key?: any) => Promise<number>,
+  sgw: (num: number) => void,
+  setGwBar: (num: number) => void,
+  setGwPayPal: (num: number) => void,
+  name: string,
+  idRef: MutableRefObject<number>
+) {
+  getAll().then(async (buchungen) => {
+    const buchung = buchungen.filter((buchung) => buchung.name === name)[0];
+    if (idRef.current === undefined) {
+      if (buchung !== undefined) {
+        console.log("found name " + buchung.name + " with id " + buchung.id);
+        sgw(buchung.gewinnBar + buchung.gewinnPayPal);
+        setGwBar(buchung.gewinnBar);
+        setGwPayPal(buchung.gewinnPayPal);
+        idRef.current = buchung.id;
+      } else {
+        await add({name: name, gewinnBar: 0, gewinnPayPal: 0}).then(result => {
+          console.log("added " + name + " with id " + result);
+          idRef.current = result
+        }, error => console.log(error));
+      }
+    }
+  });
+}
+
 export const OverviewCard = forwardRef<OverviewCardRef, OverviewCardProps>((props: OverviewCardProps, ref: Ref<OverviewCardRef>) => {
 
   const { getAll, update, add } = useIndexedDB("gewinn");
@@ -61,24 +87,8 @@ export const OverviewCard = forwardRef<OverviewCardRef, OverviewCardProps>((prop
 
   useEffect(() => {
     const getData = async () => {
-      await getAll().then(async (buchungen) => {
-        const buchung = buchungen.filter((buchung) => buchung.name === props.name)[0];
-        if (idRef.current === undefined) {
-          if (buchung !== undefined) {
-            console.log("found name " + buchung.name + " with id " + buchung.id);
-            sgw(buchung.gewinnBar + buchung.gewinnPayPal);
-            setGwBar(buchung.gewinnBar);
-            setGwPayPal(buchung.gewinnPayPal);
-            idRef.current = buchung.id;
-          } else {
-            await add({name: props.name, gewinnBar: 0, gewinnPayPal: 0}).then(result => {
-              console.log("added " + props.name + " with id " + result);
-              idRef.current = result
-            }, error => console.log(error));
-          }
-        }
-      });
-    };
+      await getUserData(getAll, add, sgw, setGwBar, setGwPayPal, props.name, idRef);
+      };
     getData();
   }, [getAll, add, props.name]);
 
@@ -103,6 +113,8 @@ export const OverviewCard = forwardRef<OverviewCardRef, OverviewCardProps>((prop
         sgw(0);
         setGwBar(0);
         setGwPayPal(0);
+        idRef.current = undefined;
+        getUserData(getAll, add, sgw, setGwBar, setGwPayPal, props.name, idRef); 
       },
       convert: (betrag: number, neuerTyp: GewinnTyp) => {
         if (neuerTyp === GewinnTyp.BAR) {
@@ -119,7 +131,7 @@ export const OverviewCard = forwardRef<OverviewCardRef, OverviewCardProps>((prop
         setGwPayPal(pp);
       }
     } as OverviewCardRef;
-  }, [update, addBuchung, props.name]);
+  }, [update, addBuchung, add, getAll, props.name]);
     return idRef && <Card header={<h2 className="name dark:text-white">{props.name}</h2>}>
         <div className='grid grid-cols-3'>
           <div style={{width: "10%"}}>

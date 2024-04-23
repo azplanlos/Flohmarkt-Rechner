@@ -7,6 +7,7 @@ type ActionMenuProps = {
     resetApp: () => void;
     dark: boolean;
     setDark: (darkMode: boolean) => void;
+    openBenutzerPanel: (value: boolean) => void;
 }
 
 export function ActionMenu(props: ActionMenuProps) {
@@ -16,7 +17,10 @@ export function ActionMenu(props: ActionMenuProps) {
     return <Actions opened={props.opened} onBackdropClick={() => props.close()}>
     <ActionsGroup>
       <ActionsLabel>Einstellungen</ActionsLabel>
-      <ActionsButton bold>Benutzer</ActionsButton>
+      <ActionsButton bold onClick={() => {
+        props.openBenutzerPanel(true);
+        props.close();
+      }}>Benutzer</ActionsButton>
       <ActionsButton onClick={() => {
           props.close();
           clear().then(() => {
