@@ -1,6 +1,6 @@
 export const DBConfig = {
     name: "Flohmarkt",
-    version: 1,
+    version: 2,
     objectStoresMeta: [
       {
         store: "gewinn",
@@ -19,6 +19,13 @@ export const DBConfig = {
           { name: "gewinn", keypath: "gewinn", options: { unique: false } },
           { name: "gewinnTyp", keypath: "gewinnTyp", options: { unique: false } },
           { name: "zeit", keypath: "zeit", options: {unique: true }}
+        ],
+      },
+      {
+        store: "benutzer",
+        storeConfig: { keyPath: "id", autoIncrement: true },
+        storeSchema: [
+          { name: "name", keypath: "name", options: { unique: true } }
         ],
       },
     ],
