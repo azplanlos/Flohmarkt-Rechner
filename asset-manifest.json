@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/Flohmarkt-Rechner/static/css/main.3def8561.css",
-    "main.js": "/Flohmarkt-Rechner/static/js/main.b51374f7.js",
+    "main.js": "/Flohmarkt-Rechner/static/js/main.4592253a.js",
     "static/js/453.a6a97343.chunk.js": "/Flohmarkt-Rechner/static/js/453.a6a97343.chunk.js",
     "static/media/cash-register-solid.svg": "/Flohmarkt-Rechner/static/media/cash-register-solid.c98c941701430e4d0d4b0d66b605227b.svg",
     "index.html": "/Flohmarkt-Rechner/index.html",
     "main.3def8561.css.map": "/Flohmarkt-Rechner/static/css/main.3def8561.css.map",
-    "main.b51374f7.js.map": "/Flohmarkt-Rechner/static/js/main.b51374f7.js.map",
+    "main.4592253a.js.map": "/Flohmarkt-Rechner/static/js/main.4592253a.js.map",
     "453.a6a97343.chunk.js.map": "/Flohmarkt-Rechner/static/js/453.a6a97343.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3def8561.css",
-    "static/js/main.b51374f7.js"
+    "static/js/main.4592253a.js"
   ]
 }
