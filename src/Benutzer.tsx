@@ -60,6 +60,7 @@ export function BenutzerPanel(props: BenutzerPanelProps) {
         <Button small onClick={() => setNames([...names, ""])}>+</Button>
       </Block>
       <Dialog
+        className="dark:text-white"
         opened={confirmOpened}
         onBackdropClick={() => setConfirmOpened(false)}
         title="Speichern"
