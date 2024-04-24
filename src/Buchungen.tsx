@@ -51,7 +51,7 @@ export function Buchungen(props: BuchungenProps) {
     const dates = [...new Set(buchungen.map(buchung => buchung.zeit.toLocaleDateString()))];
 
     return <>
-    { dates.length === 0 && <><BlockTitle>Buchungen</BlockTitle><Block><Card>Keine Buchungen vorhanden</Card></Block></>}
+    { dates.length === 0 && <><BlockTitle className="dark:text-white">Buchungen</BlockTitle><Block><Card className="dark:text-white">Keine Buchungen vorhanden</Card></Block></>}
     { dates.map((date) => <>
         <BlockTitle key={date}>Buchungen {date}</BlockTitle>
         <Card className="block overflow-x-auto mt-8" contentWrap={false} key={"card-" + date}>

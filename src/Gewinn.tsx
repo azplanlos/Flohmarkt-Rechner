@@ -21,7 +21,7 @@ export function Gewinn(props: GewinnProps) {
 
 
     return <>
-    <BlockTitle>Buchung</BlockTitle>
+    <BlockTitle className="dark:text-white">Buchung</BlockTitle>
     <Block strong outlineIos className="space-y-2">
       <Keypad onChange={val => keypadValue.current = val} ref={props.keypadRef} />
       <div className='grid grid-cols-2 gap-x-4 gap-y-4'>
