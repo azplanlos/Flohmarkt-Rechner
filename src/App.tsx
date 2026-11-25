@@ -1,13 +1,13 @@
 /* App.jsx */
 import React, { MutableRefObject, useState } from 'react';
 import { useRef } from 'react';
-import { Button, App, Page, Navbar, Link, Icon, Tabbar, TabbarLink } from 'konsta/react';
+import { App, Page, Navbar, Link, Icon, Tabbar, TabbarLink } from 'konsta/react';
 import { GewinnTyp, OverviewCard, OverviewCardRef } from './OverviewCard';
 import { KeypadRef } from './Keypad';
 import { initDB, useIndexedDB } from 'react-indexed-db-hook';
 import { DBConfig } from './DBConfig';
 import { FaCashRegister } from "react-icons/fa6";
-import { ReactComponent as Logo} from './cash-register-solid.svg';
+import Logo from './cash-register-solid.svg?react';
 import { TiThMenu } from "react-icons/ti";
 import { ActionMenu } from './ActionMenu';
 import { BsReverseListColumnsReverse } from "react-icons/bs";
@@ -77,13 +77,13 @@ export default function MyApp() {
 
     return ( 
         <App theme="ios" dark safeAreas className={dark ? 'dark' : ''}>
-          <Page>
+          <Page className="pb-safe-20">
             <Navbar title="Kasse" left={
-            <Link navbar iconOnly>
+            <Link iconOnly>
               <Icon><Logo title='Logo' /><FaCashRegister style={{visibility: "hidden", height: 1}}></FaCashRegister></Icon>
             </Link>
           } right={
-            <Button onClick={() => setActionOpen(true)}><Icon><TiThMenu /></Icon></Button>
+            <Link iconOnly onClick={() => setActionOpen(true)}><Icon><TiThMenu /></Icon></Link>
           }
           />
           <Tabbar labels={false} icons={true} className="left-0 bottom-0 fixed">
@@ -108,7 +108,7 @@ export default function MyApp() {
               }
             />
           </Tabbar>
-          {names.map((name: string, index: number) => {return <OverviewCard name={name} gewinn={0} ref={el => refs.current[index] = el} key={name} />})}
+          {names.map((name: string, index: number) => {return <OverviewCard name={name} gewinn={0} ref={el => { refs.current[index] = el! }} key={name} />})}
           { activeTab === 'übersicht' && <Gewinn keypadRef={keypadRef} refs={refs} names={names}/>}
           { activeTab === 'buchungen' && <Buchungen key="buchungen" decrease={(name, betrag, typ) => {
               decrease(name, betrag, typ, names)

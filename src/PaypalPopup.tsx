@@ -14,7 +14,7 @@ export function PaypalPopup(props: PaypalPopupProps) {
     <Navbar
       title="PayPal Zahlung"
       right={
-        <Link navbar onClick={props.close}>
+        <Link onClick={props.close}>
           Schließen
         </Link>
       }

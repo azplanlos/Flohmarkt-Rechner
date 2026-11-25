@@ -5,7 +5,7 @@ import './OverviewCard.css'
 import { useIndexedDB } from 'react-indexed-db-hook';
 import { BsCashCoin } from "react-icons/bs";
 import { SlPaypal } from "react-icons/sl";
-import { ReactComponent as Logo} from './cash-register-solid.svg';
+import Logo from './cash-register-solid.svg?react';
 
 type OverviewCardProps = {
     name: string;
@@ -77,10 +77,10 @@ export const OverviewCard = forwardRef<OverviewCardRef, OverviewCardProps>((prop
   const [gwBar, setGwBar] = useState(0);
   const [gwPayPal, setGwPayPal] = useState(0);
 
-  const stateRef = useRef<number>();
-  const stateBarRef = useRef<number>();
-  const statePayPalRef = useRef<number>();
-  const idRef = useRef<number>();
+  const stateRef = useRef<number | undefined>(undefined);
+  const stateBarRef = useRef<number | undefined>(undefined);
+  const statePayPalRef = useRef<number | undefined>(undefined);
+  const idRef = useRef<number | undefined>(undefined);
   stateRef.current = gw;
   stateBarRef.current = gwBar;
   statePayPalRef.current = gwPayPal;

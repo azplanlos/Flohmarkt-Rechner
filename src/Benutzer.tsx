@@ -35,7 +35,7 @@ export const BenutzerPanel = forwardRef<BenutzerPanelRef, BenutzerPanelProps>((p
       <Navbar
         title="Benutzer"
         right={
-          <Link navbar onClick={() => {
+          <Link onClick={() => {
             const edited = names.length !== props.benutzer.length || names.some((name, index) => name !== props.benutzer[index]);
             console.log("edited: " + edited);
             console.log("props");

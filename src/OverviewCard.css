@@ -1,12 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .gewinn {
     color: green;
     font-size: 4em !important;
     font-weight: bold;
     text-align: right;
+    /* Tailwind 3 inherited a fixed 20px line height from text-sm; Tailwind 4 scales it with the font size */
+    line-height: 1.25rem;
 }
 
 .name {
@@ -14,11 +12,6 @@
     font-weight: bold;
 }
 
-@layer utilities {
-    .text-white {
-        color: white;
-    }
-}
 
 .detail {
     text-align: right;
@@ -26,6 +19,7 @@
     padding-top: 1em;
     font-size: 1.5em;
     vertical-align: middle;
+    line-height: 1.25rem;
 }
 
 .detailIcon {
